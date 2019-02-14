@@ -1,6 +1,6 @@
 ---
 id: forms
-title: Forms
+title: Форми
 permalink: docs/forms.html
 prev: lists-and-keys.html
 next: lifting-state-up.html
@@ -10,26 +10,35 @@ redirect_from:
 ---
 
 HTML form elements work a little bit differently from other DOM elements in React, because form elements naturally keep some internal state. For example, this form in plain HTML accepts a single name:
+Елементи форми HTML працюють трохи інакше, ніж інші елементи DOM в React, оскільки елементи форми безумовно зберігають деякий внутрішній стан. Наприклад, ця форма у звичайному HTML-коді приймає одне ім'я:
 
 ```html
 <form>
   <label>
-    Name:
+    Iм'я:
     <input type="text" name="name" />
   </label>
-  <input type="submit" value="Submit" />
+  <input type="submit" value="Надіслати" />
 </form>
 ```
 
 This form has the default HTML form behavior of browsing to a new page when the user submits the form. If you want this behavior in React, it just works. But in most cases, it's convenient to have a JavaScript function that handles the submission of the form and has access to the data that the user entered into the form. The standard way to achieve this is with a technique called "controlled components".
+Ця форма має поведінку HTML форми за замовчуванням для перегляду нової сторінки, коли користувач подає форму. Якщо Ви хочете цю поведінку в React, це працює за замовчуванням. Але в більшості випадків зручно мати JavaScript функцію, яка обробляє подання форми і має доступ до даних, які користувач ввів у форму. Стандартним способом досягнення цього є метод, який називається "контрольовані компоненти".
 
-## Controlled Components {#controlled-components}
+
+## Rонтрольовані Rомпоненти {#controlled-components}
 
 In HTML, form elements such as `<input>`, `<textarea>`, and `<select>` typically maintain their own state and update it based on user input. In React, mutable state is typically kept in the state property of components, and only updated with [`setState()`](/docs/react-component.html#setstate).
 
+У HTML, елементи форми, такі як `<input>`, `<textarea>`, і `<select>`, типово зберігають свой власний стан і оновлюють його на основі вводу. У React, змінний стан зазвичай зберігається у властивості стану компонентів, і тільки оновлюється за допомогою [`setState()`](/docs/react-component.html#setstate).
+
 We can combine the two by making the React state be the "single source of truth". Then the React component that renders a form also controls what happens in that form on subsequent user input. An input form element whose value is controlled by React in this way is called a "controlled component".
 
+Ми можемо об'єднати обидві, зробивши React стан - "єдиним джерелом істини". Тоді компонент React, який рендерит форму, також керує тим, що відбувається в цій формі при наступному введенні користувача. Елемент форми введення, значення якого контролюється таким чином, називається "контрольованим компонентом".
+
 For example, if we want to make the previous example log the name when it is submitted, we can write the form as a controlled component:
+
+Наприклад, якщо ми хочемо у попередньому прикладу записати ім'я при його поданні, ми можемо написати форму як контрольований компонент:
 
 ```javascript{4,10-12,24}
 class NameForm extends React.Component {
@@ -46,7 +55,7 @@ class NameForm extends React.Component {
   }
 
   handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.value);
+    alert('Надіслано ім’я: ' + this.state.value);
     event.preventDefault();
   }
 
@@ -54,10 +63,10 @@ class NameForm extends React.Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <label>
-          Name:
+          Ім’я:
           <input type="text" value={this.state.value} onChange={this.handleChange} />
         </label>
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Надіслати" />
       </form>
     );
   }
@@ -68,7 +77,12 @@ class NameForm extends React.Component {
 
 Since the `value` attribute is set on our form element, the displayed value will always be `this.state.value`, making the React state the source of truth. Since `handleChange` runs on every keystroke to update the React state, the displayed value will update as the user types.
 
+Оскільки атрибут `value` встановлений на нашому елементі форми, відображене значення завжди буде` this.state.value`, що робить React стан джерелом істини. Оскільки `handleChange` виконується на кожному натисканні клавіші для оновлення React стану, відображуване значення оновиться як типи користувачів.
+
+
 With a controlled component, every state mutation will have an associated handler function. This makes it straightforward to modify or validate user input. For example, if we wanted to enforce that names are written with all uppercase letters, we could write `handleChange` as:
+
+З контрольованим компонентом кожна мутація стану матиме відповідну функцію обробника. Це робить його простим, щоб змінювати або перевіряти вхід користувача. Наприклад, якщо ми хочемо примусити, щоб імена були написані всіма великими літерами, ми могли б написати "handleChange" як:
 
 ```javascript{2}
 handleChange(event) {
@@ -76,7 +90,7 @@ handleChange(event) {
 }
 ```
 
-## The textarea Tag {#the-textarea-tag}
+## Тег текстової області {#the-textarea-tag}
 
 In HTML, a `<textarea>` element defines its text by its children:
 
